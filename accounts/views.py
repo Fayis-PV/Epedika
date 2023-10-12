@@ -26,6 +26,8 @@ class RegisterView(View):
     form = CustomUserForm
     template_name = '/registration/register.html'
 
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
