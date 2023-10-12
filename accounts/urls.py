@@ -5,7 +5,7 @@ app_name = 'accounts'
 urlpatterns = [
     path('',home,name='home'),
     path('json/',UserJsonView.as_view(),name='user-json'),
-    path('accounts/register/',RegisterView.as_view(),name='register'),
+    # path('accounts/register/',RegisterView.as_view(),name='register'),
 
     path("categories", CategoryListView.as_view(), name="category_list"),
     path("products", ProductListView.as_view(), name="product_list"),

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from .forms import CustomUserForm
+# from .forms import CustomUserForm
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -22,9 +22,9 @@ class UserJsonView(APIView):
             'email' : request.user.email
         })
 
-class RegisterView(View):
-    form = CustomUserForm
-    template_name = '/registration/register.html'
+# class RegisterView(View):
+#     form = CustomUserForm
+#     template_name = '/registration/register.html'
 
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
