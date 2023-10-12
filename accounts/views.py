@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from rest_framework import generics
 from .models import *
+from .serializers import *
 
 # Create your views here.
 # @login_required
@@ -28,6 +29,24 @@ class UserJsonView(APIView):
 
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryCreateView(generics.CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductCreateView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

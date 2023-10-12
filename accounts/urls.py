@@ -8,6 +8,11 @@ urlpatterns = [
     # path('accounts/register/',RegisterView.as_view(),name='register'),
 
     path("categories", CategoryListView.as_view(), name="category_list"),
+    path("categories", CategoryCreateView.as_view(), name="category_list"),
+    path("categories", CategoryListView.as_view(), name="category_list"),
+
+    path("products", ProductListView.as_view(), name="product_list"),
+    path("products", ProductCreateView.as_view(), name="product_list"),
     path("products", ProductListView.as_view(), name="product_list"),
 
 ]
