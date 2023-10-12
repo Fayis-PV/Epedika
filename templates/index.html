@@ -1,0 +1,8 @@
+<h1>Home</h1>
+{% if request.user.is_authenticated %}
+<p>User:{{ request.user }} </p>
+<a href="/accounts/logout/">Logout</a>
+{% else %}
+<a href="/accounts/login/">Log In</a>
+<a href="/accounts/signup/">Sign UP</a>
+{% endif %}

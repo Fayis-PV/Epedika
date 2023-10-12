@@ -1,0 +1,35 @@
+@base_url = http://127.0.0.1:8000
+
+
+### Rest-Framework Token
+# @name token
+POST {{base_url}}/api-token-auth/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"fayis",
+    "password":"3144"
+}
+
+### Authorization of Rest Framework
+GET {{base_url}}/json/ HTTP/1.1
+Content-Type: application/json
+Authorization: Token {{token.response.body.token}}
+
+###JWT Authentication
+# @name jwt
+POST {{base_url}}/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"fayis",
+    "password":"3144"
+}
+
+### Authentication using JWT
+POST {{base_url}}/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "{{jwt.response.body.refresh}}"
+}

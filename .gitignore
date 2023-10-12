@@ -1,0 +1,4 @@
+env/
+.git
+db.sqlite3
+__pycache__/
