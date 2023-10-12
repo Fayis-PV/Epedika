@@ -159,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-AUTH_USER_MODEL = 'accounts.CustomeUser'
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development, use console backend

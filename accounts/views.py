@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
+from rest_framework import generics
 
 # Create your views here.
 @login_required
@@ -23,3 +24,6 @@ class UserJsonView(APIView):
 class RegisterView(View):
     form = CustomUserForm
     template_name = '/registration/register.html'
+
+
+class ProductListView(generics.ListAPIView)
