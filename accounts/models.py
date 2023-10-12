@@ -10,17 +10,26 @@ class CustomeUser(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField( max_length=50)
-    description = models.TextField()
+    description = models.TextField(null=True,blank=True)
+    image = models.URLField(null=True,blank=True)
     created_on = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    
 
 class Product(models.Model):
     name = models.CharField( max_length=50)
-    description = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.TextField(null=True,blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True,blank=True)
     price = models.PositiveIntegerField(default=0)
-    image = models.URLField(max_length=500)
+    image = models.URLField(null=True,blank=True)
     stock = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.name
+    
 
 class Slides(models.Model):
-    image = models.URLField(max_length=500)
+    image = models.URLField()
     
