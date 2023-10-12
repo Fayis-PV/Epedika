@@ -7,8 +7,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         username = os.environ.get('SUPERUSER_USERNAME','admin') # Set your desired superuser username
-        email = os.environ.get('SUPERUSER_EMAIL')  # Set your desired superuser email
-        password = os.environ.get('SUPERUSER_PASSWORD') # Set your desired superuser password
+        email = os.environ.get('SUPERUSER_EMAIL','fayispvchelari@gmail.com')  # Set your desired superuser email
+        password = os.environ.get('SUPERUSER_PASSWORD','3144') # Set your desired superuser password
 
         if not User.objects.filter(username=username).exists():
             User.objects.create_superuser(username, email, password)
