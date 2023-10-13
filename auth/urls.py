@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
+from accounts.views import custom_404,custom_400
+
+handler404 = custom_404
+handler400 = custom_400
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -33,6 +33,9 @@ def home(request):
 def custom_404(request, exception):
     return render(request, '404.html', status=status.HTTP_404_NOT_FOUND)
 
+def custom_400(request, exception):
+    return render(request, '400.html', status=400)
+
 
 class UserJsonView(APIView):
     permission_classes =  [IsAuthenticated]
