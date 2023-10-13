@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser,AbstractBaseUser,Group,Permi
 # Create your models here.
 
 class CustomeUser(AbstractUser):
+    about_us = models.TextField(null=True,blank=True)
     groups = models.ManyToManyField(Group, related_name='custom_user_set')
     user_permissions = models.ManyToManyField(
         Permission, related_name='custom_user_set'
