@@ -33,17 +33,23 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class TransactionItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransactionItem
-        fields = ('product', 'quantity')
+        fields = '__all__'
 
 class TransactionSerializer(serializers.ModelSerializer):
     items = TransactionItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Transaction
-        fields = ('id', 'user', 'timestamp', 'items')
+        fields = ['id','user','status','items','timestamp']
 
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['sender', 'recipient', 'message', 'timestamp', 'is_read']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'

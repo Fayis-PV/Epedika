@@ -27,8 +27,14 @@ urlpatterns = [
     path('inbox', MessageInboxView.as_view(), name='inbox'),
     path('send', MessageSendingView.as_view(), name='send_message'),
 
-    path('add_to_wishlist', MessageInboxView.as_view(), name='inbox'),
-    path('order_history', MessageInboxView.as_view(), name='inbox'),
+    path('add_to_wishlist', AddtoWishListView.as_view(), name='add_to_wishlist'),
+    path('order_products', OrderProductsView.as_view(), name='order_products'),
+    path('order_history', UserOrderHistoryView.as_view(), name='order_history'),
+    path('orders', OrdersListView.as_view(), name='admin_orders'),
+    path('complete_order', OrderCompleteView.as_view(), name='complete_order'),
+    path('cancel_order', OrderCancelView.as_view(), name='cancel_order'),
+    
+
     
     
 

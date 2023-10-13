@@ -160,6 +160,9 @@ class TransactionListView(generics.ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
 
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 class TransactionCreateView(edit.CreateView):
     model = Transaction
     # serializer_class = TransactionSerializer
@@ -179,8 +182,130 @@ class MessageInboxView(generics.ListAPIView):
 
 class MessageSendingView(generics.CreateAPIView):
     serializer_class = MessageSerializer
+    authentication_classes = IsAuthenticated
 
     def perform_create(self, serializer):
         # Set the sender to the logged-in user
         serializer.save(sender=self.request.user)
 
+
+class AddtoWishListView(generics.CreateAPIView):
+    serializer_class = TransactionItemSerializer
+
+    def post(self, request, *args, **kwargs):
+        # Extract and validate request data
+        product_id = request.data.get('product')
+        quantity = int(request.data.get('quantity', 1))
+        user = request.user
+
+        # Check if there's an existing pending transaction for the user
+        transaction, created = Transaction.objects.get_or_create(user=user, status=Transaction.PENDING)
+
+        # Fetch the product based on the provided product_id
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return Response({'detail': 'Product not found'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if the item is already in the wishlist
+        wishlist_item, created = TransactionItem.objects.get_or_create(
+            transaction=transaction,
+            product=product,
+            defaults={'quantity': quantity}
+        )
+
+        # Update the quantity of the item if it already exists
+        if not created:
+            wishlist_item.quantity = quantity
+            wishlist_item.save()
+
+        # Serialize the entire transaction with all its items
+        serializer = TransactionSerializer(transaction)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    
+class OrdersListView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        # Assuming you have the user in the request context
+        user = self.request.user
+        return Order.objects.filter(recipient=user).order_by('-timestamp')
+
+
+class OrderProductsView(generics.CreateAPIView):
+    serializer_class = OrderSerializer
+    def post(self,request):
+        user = request.user
+        admin_user = User.objects.get(is_staff = True)
+        try:
+            transaction = Transaction.objects.get(user = user,status = 'pending')
+        except Transaction.DoesNotExist:
+            return Response({'detail': 'Order not found'}, status=status.HTTP_400_BAD_REQUEST)
+        order_transaction = Order.objects.create(sender = user,recipient = admin_user,transaction = transaction)
+        order_transaction.save()
+        transaction.status = 'ordered'
+        transaction.save()
+        serializer = OrderSerializer(order_transaction)
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+
+
+class UserOrderHistoryView(generics.ListAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user_transaction_history = Transaction.objects.filter(user = user, status= 'completed')
+        print(user_transaction_history)
+        if user_transaction_history:
+            serializer = TransactionSerializer(user_transaction_history,many = True)
+            return Response(serializer.data)
+        else:
+            return Response('You have not any transactions with Us')
+
+class OrderCompleteView(generics.CreateAPIView):
+    serializer_class = OrderSerializer
+    def post(self,request):
+        user = request.user
+        admin_user = User.objects.get(is_staff = True)
+        try:
+            transaction = Transaction.objects.get(user = user,status = 'ordered')
+        except Transaction.DoesNotExist:
+            return Response({'detail': 'Order not found'}, status=status.HTTP_400_BAD_REQUEST)
+        for product in transaction.products.all():
+            transaction_item = TransactionItem.objects.get(transaction=transaction,product = product)
+            quantity = transaction_item.quantity
+            real_product = Product.objects.get(id = product.id)
+            print(quantity,real_product.stock)
+            real_product.stock -= quantity
+            real_product.save()
+        transaction.status = 'completed'
+        transaction.save()
+        message = 'Thank you for purchasing the products Successfully. Keep in Touch'
+        user_message = Message.objects.create(sender = admin_user.email,recipient = user,message = message)
+        user_message.save()
+        order_transaction = Order.objects.filter(transaction = transaction).first()
+        order_transaction.answered = True
+        order_transaction.save()
+        transaction.status = 'completed'
+        transaction.save()
+        serializer = OrderSerializer(order_transaction)
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+
+class OrderCancelView(generics.CreateAPIView):
+    serializer_class = OrderSerializer
+    def post(self,request):
+        user = request.user
+        admin_user = User.objects.get(is_staff = True)
+        try:
+            transaction = Transaction.objects.get(user = user,status = 'ordered')
+        except Transaction.DoesNotExist:
+            return Response({'detail': 'Order not found'}, status=status.HTTP_400_BAD_REQUEST)
+        message = 'Your order has cancelled. Keep in Touch'
+        user_message = Message.objects.create(sender = admin_user.email,recipient = user,message = message)
+        user_message.save()
+        order_transaction = Order.objects.filter(transaction = transaction).first()
+        transaction.status = 'canceled'
+        transaction.save()
+        # order_transaction.save()
+        serializer = OrderSerializer(order_transaction)
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
