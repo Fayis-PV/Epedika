@@ -17,7 +17,10 @@ urlpatterns = [
     path("products/create", ProductCreateView.as_view(), name="product_create"),
     path("products/<int:pk>", ProductDetailView.as_view(), name="product_detail"),
 
-    path("slides", ProductListView.as_view(), name="product_list"),
-    path("slides/create", ProductCreateView.as_view(), name="product_create"),
-    path("slides/<int:pk>", ProductDetailView.as_view(), name="product_detail"),
+    path("slides", ProductListView.as_view(), name="slides_list"),
+    path("slides/create", ProductCreateView.as_view(), name="slides_create"),
+    path("slides/<int:pk>", ProductDetailView.as_view(), name="slides_detail"),
+
+    path("transactions", TransactionListCreateView.as_view(), name="transaction_list"),
+
 ]

@@ -19,6 +19,7 @@ from django.conf import settings
 from allauth.account.utils import send_email_confirmation
 from django.contrib import messages
 from django.urls import reverse
+from rest_framework import viewsets
 
 # Create your views here.
 # @login_required
@@ -33,35 +34,6 @@ class UserJsonView(APIView):
         return Response({
             'email' : request.user.email
         })
-
-# class RegisterView(View):
-#     form = CustomUserForm
-#     template_name = '/registration/register.html'
-
-class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-class CategoryCreateView(generics.CreateAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-class ProductCreateView(generics.CreateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
 
 #User Authentication
 
@@ -131,8 +103,6 @@ class CustomLoginView(LoginView):
 
         return response
 
-    
-
 
 class CustomLogoutView(LogoutView):
     def get(self,request):
@@ -147,3 +117,35 @@ class CustomLogoutView(LogoutView):
 
         return response
          
+
+# Product Management
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryCreateView(generics.CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ProductListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductCreateView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+#Admin Panel Works 
+class TransactionListCreateView(generics.ListCreateAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer

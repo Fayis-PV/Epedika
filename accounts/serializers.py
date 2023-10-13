@@ -27,3 +27,17 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['name'] = user.username
         return token
+    
+# Admin Function Serialzers
+
+class TransactionItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TransactionItem
+        fields = ('product', 'quantity')
+
+class TransactionSerializer(serializers.ModelSerializer):
+    items = TransactionItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Transaction
+        fields = ('id', 'user', 'timestamp', 'items')
