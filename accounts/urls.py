@@ -24,8 +24,13 @@ urlpatterns = [
     path("transactions", TransactionListView.as_view(), name="transaction_list"),
     path("transactions/create", TransactionCreateView.as_view(), name="transaction_create"),
 
-    path('inbox/', MessageInboxView.as_view(), name='inbox'),
-    path('send/', MessageSendingView.as_view(), name='send_message'),
+    path('inbox', MessageInboxView.as_view(), name='inbox'),
+    path('send', MessageSendingView.as_view(), name='send_message'),
+
+    path('add_to_wishlist', MessageInboxView.as_view(), name='inbox'),
+    path('order_history', MessageInboxView.as_view(), name='inbox'),
+    
+    
 
 
 ]

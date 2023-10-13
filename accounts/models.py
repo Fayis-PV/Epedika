@@ -26,6 +26,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField(default=0)
     image = models.URLField(null=True,blank=True)
     stock = models.IntegerField(default=0)
+    rating = models.DecimalField(max_digits=2, decimal_places=2,null=True,blank=True)
     
     def __str__(self):
         return self.name
