@@ -11,6 +11,6 @@ class CustomUserForm(UserCreationForm):
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = ['user', 'products', 'timestamp']
+        fields = ['user', 'products']
 
 

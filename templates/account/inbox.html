@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+</head>
+<body>
+    <h1>Inbox</h1>
+    <ul>
+        {% for message in object_list %}
+            <li>
+                <strong>From:</strong> {{ message.sender }}
+                <strong>Date:</strong> {{ message.timestamp }}
+                <p>{{ message.message }}</p>
+            </li>
+        {% empty %}
+            <li>No messages in your inbox.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

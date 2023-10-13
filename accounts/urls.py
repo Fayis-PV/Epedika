@@ -21,6 +21,11 @@ urlpatterns = [
     path("slides/create", ProductCreateView.as_view(), name="slides_create"),
     path("slides/<int:pk>", ProductDetailView.as_view(), name="slides_detail"),
 
-    path("transactions", TransactionListCreateView.as_view(), name="transaction_list"),
+    path("transactions", TransactionListView.as_view(), name="transaction_list"),
+    path("transactions/create", TransactionCreateView.as_view(), name="transaction_create"),
+
+    path('inbox/', MessageInboxView.as_view(), name='inbox'),
+    path('send/', MessageSendingView.as_view(), name='send_message'),
+
 
 ]

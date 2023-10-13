@@ -20,11 +20,18 @@ from allauth.account.utils import send_email_confirmation
 from django.contrib import messages
 from django.urls import reverse
 from rest_framework import viewsets
+from .forms import CustomUserForm ,TransactionForm
+from django.views.generic import edit
+from rest_framework import status
 
 # Create your views here.
 # @login_required
 def home(request):
     return render(request,'index.html')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=status.HTTP_404_NOT_FOUND)
 
 
 class UserJsonView(APIView):
@@ -146,6 +153,31 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Admin Panel Works 
-class TransactionListCreateView(generics.ListCreateAPIView):
+class TransactionListView(generics.ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+class TransactionCreateView(edit.CreateView):
+    model = Transaction
+    # serializer_class = TransactionSerializer
+    form_class = TransactionForm
+    template_name = 'account/transaction.html'
+    success_url = '/transactions/'  # Redirect to a transaction list page after successful submission
+
+
+class MessageInboxView(generics.ListAPIView):
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        # Assuming you have the user in the request context
+        user = self.request.user
+        return Message.objects.filter(recipient=user).order_by('-timestamp')
+
+
+class MessageSendingView(generics.CreateAPIView):
+    serializer_class = MessageSerializer
+
+    def perform_create(self, serializer):
+        # Set the sender to the logged-in user
+        serializer.save(sender=self.request.user)
+

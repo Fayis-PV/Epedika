@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,AbstractBaseUser,Group,Permission
+from django.contrib.auth.models import AbstractUser,AbstractBaseUser,Group,Permission,User
 # Create your models here.
 
 class CustomeUser(AbstractUser):
@@ -52,5 +52,10 @@ class TransactionItem(models.Model):
     quantity = models.PositiveIntegerField()
 
 
-
+class Message(models.Model):
+    sender = models.EmailField()
+    recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
     
