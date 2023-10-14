@@ -33,6 +33,8 @@ urlpatterns = [
     path('orders', OrdersListView.as_view(), name='admin_orders'),
     path('complete_order', OrderCompleteView.as_view(), name='complete_order'),
     path('cancel_order', OrderCancelView.as_view(), name='cancel_order'),
+
+    path('send-subscription-emails', SendSubscriptionMessageView.as_view(), name='send-subscription-emails'),
     
 
     

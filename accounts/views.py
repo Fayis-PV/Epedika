@@ -24,6 +24,7 @@ from .forms import CustomUserForm ,TransactionForm
 from django.views.generic.edit import FormView
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -341,6 +342,7 @@ class OrderCancelView(generics.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class SendSubscriptionMessageView(generics.CreateAPIView):
+    serializer_class = NewsletterSubscriptionSerializer
 
     def post(self, request, *args, **kwargs):
         # Get all subscribers who are subscribed
@@ -353,6 +355,6 @@ class SendSubscriptionMessageView(generics.CreateAPIView):
 
             # Send emails to subscribers
             for subscriber in subscribers:
-                send_email(subject, message, from_email, [subscriber.user.email])
+                send_mail(subject, message, from_email, [subscriber.email])
 
         return Response({"message": "Sending subscription emails to subscribers."})

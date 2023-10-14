@@ -83,3 +83,12 @@ class Order(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     answered = models.BooleanField(default=False)
+
+
+class NewsletterSubscription(models.Model):
+    email = models.EmailField()
+    is_subscribed = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.email
+    
