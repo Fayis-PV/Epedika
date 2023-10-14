@@ -339,3 +339,20 @@ class OrderCancelView(generics.CreateAPIView):
 
         serializer = OrderSerializer(order_transaction)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+class SendSubscriptionMessageView(generics.CreateAPIView):
+
+    def post(self, request, *args, **kwargs):
+        # Get all subscribers who are subscribed
+        subscribers = NewsletterSubscription.objects.filter(is_subscribed=True)
+
+        if subscribers:
+            subject = 'Subscription Update'
+            message = 'Thank you for subscribing to our newsletters and promotions.'
+            from_email = 'sender@example.com'
+
+            # Send emails to subscribers
+            for subscriber in subscribers:
+                send_email(subject, message, from_email, [subscriber.user.email])
+
+        return Response({"message": "Sending subscription emails to subscribers."})
