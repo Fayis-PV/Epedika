@@ -28,7 +28,6 @@ class Product(models.Model):
     our_price = models.PositiveIntegerField(default=0)
     image = models.URLField(null=True,blank=True)
     stock = models.IntegerField(default=0)
-    rating = IntegerRangeField(null=True,blank=True,max_value=5,min_value=0)
     
     def __str__(self):
         return self.name
