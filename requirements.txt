@@ -1,12 +1,12 @@
 asgiref==3.7.2
 beautifulsoup4==4.12.2
 certifi==2023.7.22
-cffi==1.16.0
+cffi==1.15.1
 charset-normalizer==3.3.0
 cryptography==41.0.4
 defusedxml==0.7.1
 dj-database-url==2.1.0
-Django==4.2.6
+Django==3.2.22
 django-allauth==0.57.0
 django-bootstrap-v5==1.0.11
 django-cors-headers==4.3.0
@@ -30,4 +30,4 @@ sqlparse==0.4.4
 typing_extensions==4.8.0
 tzdata==2023.3
 urllib3==2.0.6
-whitenoise==6.6.0
+whitenoise==6.4.0
