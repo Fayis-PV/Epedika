@@ -25,6 +25,8 @@ from django.views.generic.edit import FormView
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
+from django.views.decorators.http import require_GET
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -38,6 +40,11 @@ def custom_404(request, exception):
 
 def custom_400(request, exception):
     return render(request, '400.html', status=400)
+
+@require_GET
+def get_csrf_token(request):
+    csrf_token = request.COOKIES.get('csrftoken', '')
+    return JsonResponse({'csrfToken': csrf_token})
 
 
 class UserJsonView(APIView):
@@ -346,15 +353,20 @@ class SendSubscriptionMessageView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         # Get all subscribers who are subscribed
+        message = request.data.get('message')
         subscribers = NewsletterSubscription.objects.filter(is_subscribed=True)
 
         if subscribers:
             subject = 'Subscription Update'
-            message = 'Thank you for subscribing to our newsletters and promotions.'
-            from_email = 'sender@example.com'
+            from_email = User.objects.filter(is_superuser = True).first()
 
             # Send emails to subscribers
             for subscriber in subscribers:
                 send_mail(subject, message, from_email, [subscriber.email])
 
         return Response({"message": "Sending subscription emails to subscribers."})
+    
+class SubscribersView(generics.ListCreateAPIView):
+    queryset = NewsletterSubscription.objects.all()
+    serializer_class = NewsletterSubscriptionSerializer
+

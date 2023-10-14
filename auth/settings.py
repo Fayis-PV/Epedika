@@ -100,6 +100,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'auth.urls'
 CORS_ALLOW_ALL_ORIGINS = True
+CSRF_COOKIE_NAME = "csrftoken"
 
 TEMPLATES = [
     {

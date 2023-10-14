@@ -35,6 +35,9 @@ urlpatterns = [
     path('cancel_order', OrderCancelView.as_view(), name='cancel_order'),
 
     path('send-subscription-emails', SendSubscriptionMessageView.as_view(), name='send-subscription-emails'),
+    path('subscriber',SubscribersView.as_view(),name='subcriber_view'),
+
+    
     
 
     
