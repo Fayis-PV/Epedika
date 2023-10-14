@@ -42,12 +42,22 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['id','user','status','items','timestamp']
 
-
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['sender', 'recipient', 'message', 'timestamp', 'is_read']
 
+    def validate_message(self, value):
+        if len(value) > 4000:  # Example validation, adjust as needed
+            raise serializers.ValidationError("Message is too long")
+        return value
+
+    def validate_recipient(self, value):
+        try:
+            User.objects.get(pk=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Recipient does not exist")
+        return value
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

@@ -180,18 +180,18 @@ class MessageInboxView(generics.ListAPIView):
     serializer_class = MessageSerializer
 
     def get_queryset(self):
-        # Assuming you have the user in the request context
         user = self.request.user
         return Message.objects.filter(recipient=user).order_by('-timestamp')
 
-
 class MessageSendingView(generics.CreateAPIView):
     serializer_class = MessageSerializer
-    authentication_classes = IsAuthenticated
+    authentication_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        # Set the sender to the logged-in user
-        serializer.save(sender=self.request.user)
+        try:
+            serializer.save(sender=self.request.user)
+        except Exception as e:
+            return Response({'error': 'Message sending failed'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AddtoWishListView(generics.CreateAPIView):
