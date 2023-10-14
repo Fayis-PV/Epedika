@@ -164,6 +164,14 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class SlideListCreateView(generics.ListCreateAPIView):
+    queryset = Slide.objects.all()
+    serializer_class = SlideSerializer
+
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Slide.objects.all()
+    serializer_class = SlideSerializer
+
 
 #Admin Panel Works 
 class TransactionListView(generics.ListCreateAPIView):

@@ -14,6 +14,11 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SlideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Slide
+        fields = '__all__'
+
 #Auth Serializers
 
 class LoginSerializer(serializers.Serializer):
