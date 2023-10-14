@@ -99,7 +99,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'auth.urls'
-CORS_ALLOWED_ORIGINS = ['https://hackathon-epedika.onrender.com','http://127.0.0.1:8000']
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
