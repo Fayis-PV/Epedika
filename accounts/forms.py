@@ -9,8 +9,9 @@ class CustomUserForm(UserCreationForm):
 
 
 class TransactionForm(forms.ModelForm):
+    quantity = forms.IntegerField(min_value=1, max_value=100)
     class Meta:
         model = Transaction
-        fields = ['user', 'products']
+        fields = ['user', 'products','quantity']
 
 

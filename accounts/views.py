@@ -183,9 +183,22 @@ class TransactionCreateView(FormView):
     form_class = TransactionForm
     success_url = '/transactions/'  # Redirect to a transaction list page after successful submission
 
+    # // form validation with add quantity to transactionitem of product from the transaction form
     def form_valid(self, form):
-        # Handle successful form submission
-        transaction = form.save()
+        # Create a new transaction
+        transaction = Transaction.objects.create(user=self.request.user)
+        transaction.save()
+
+        # Get the product from the form
+        product = form.cleaned_data['products']
+
+        # Get the quantity from the form
+        quantity = form.cleaned_data['quantity']
+
+        # Create a new transaction item
+        transaction_item = TransactionItem.objects.create(transaction=transaction, product=product, quantity=quantity)
+        transaction_item.save()
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
