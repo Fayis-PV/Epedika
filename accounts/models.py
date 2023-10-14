@@ -23,12 +23,12 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField( max_length=50)
     description = models.TextField(null=True,blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True,blank=True)
+    category = models.CharField(max_length=100)
     market_price = models.PositiveIntegerField(default=0)
     our_price = models.PositiveIntegerField(default=0)
     image = models.URLField(null=True,blank=True)
     stock = models.IntegerField(default=0)
-    rating = IntegerRangeField(null=True,blank=True,max_value=5,min_value=0)
+    # rating = IntegerRangeField(null=True,blank=True,max_value=5,min_value=0)
     
     def __str__(self):
         return self.name
