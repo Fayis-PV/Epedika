@@ -21,7 +21,7 @@ from django.contrib import messages
 from django.urls import reverse
 from rest_framework import viewsets
 from .forms import CustomUserForm ,TransactionForm
-from django.views.generic import edit
+from django.views.generic.edit import FormView
 from rest_framework import status
 
 # Create your views here.
@@ -156,19 +156,24 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Admin Panel Works 
-class TransactionListView(generics.ListAPIView):
+class TransactionListView(generics.ListCreateAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-class TransactionCreateView(edit.CreateView):
-    model = Transaction
-    # serializer_class = TransactionSerializer
-    form_class = TransactionForm
+class TransactionCreateView(FormView):
     template_name = 'account/transaction.html'
+    form_class = TransactionForm
     success_url = '/transactions/'  # Redirect to a transaction list page after successful submission
+
+    def form_valid(self, form):
+        # Handle successful form submission
+        transaction = form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # Handle form validation errors
+        # You can customize error handling here
+        return super().form_invalid(form)
 
 
 class MessageInboxView(generics.ListAPIView):
