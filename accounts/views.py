@@ -24,8 +24,9 @@ from .forms import CustomUserForm ,TransactionForm
 from django.views.generic.edit import FormView
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
 from django.views.decorators.http import require_GET
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.core.mail import send_mail
 from django.http import JsonResponse
 
 
@@ -92,16 +93,20 @@ class AdminPageView(APIView):
             return None
         
 
+
 class CustomSignupView(SignupView):
     def get(self,request):
         return render(request,'account/signup.html')
     
+    @csrf_exempt
+    @csrf_protect
     def form_valid(self, form):
         # Create the user but don't log them in
         self.user = form.save(self.request)
         return redirect("account_login")  # Redirect to the login page
 
     # Optional: Override the success url to redirect after email confirmation
+    @csrf_exempt
     def get_success_url(self):
         return reverse("account_login")  # Redirect to the login page
 
@@ -216,11 +221,11 @@ class MessageInboxView(generics.ListAPIView):
 
 class MessageSendingView(generics.CreateAPIView):
     serializer_class = MessageSerializer
-    authentication_classes = [IsAuthenticated]
+    permission_class = [IsAuthenticated]
 
-    def perform_create(self, serializer):
+    def perform_create(self,request, serializer):
         try:
-            serializer.save(sender=self.request.user)
+            serializer.save(sender=request.user.id)
         except Exception as e:
             return Response({'error': 'Message sending failed'}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-f5b@dkzcr6qjmtu=x@2motgz)4zr&_pjps%e2n0=fkteiw^c8!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -103,6 +102,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'auth.urls'
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    # Add other allowed origins here as needed
+]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000",'https://epeedika.vercel.app']
+
 CSRF_COOKIE_NAME = "csrftoken"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
