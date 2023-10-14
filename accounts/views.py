@@ -168,7 +168,7 @@ class SlideListCreateView(generics.ListCreateAPIView):
     queryset = Slide.objects.all()
     serializer_class = SlideSerializer
 
-class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+class SlideDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Slide.objects.all()
     serializer_class = SlideSerializer
 
