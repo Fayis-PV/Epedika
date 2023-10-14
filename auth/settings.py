@@ -76,6 +76,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
+    "bootstrap5",
+    'crispy_forms',
+    "crispy_bootstrap5",
     
     'django.contrib.sites',
     'allauth',
@@ -101,6 +104,9 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'auth.urls'
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_COOKIE_NAME = "csrftoken"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 TEMPLATES = [
     {

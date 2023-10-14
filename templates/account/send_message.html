@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Send a Message</title>
-</head>
-<body>
+{% extends "account/base.html" %}
+    {% load bootstrap5 %}
+    {% load crispy_forms_tags %}
+{% block content %}
     <h1>Send a Message</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button type="submit">Send</button>
-    </form>
-</body>
-</html>
+    {% endblock content %}

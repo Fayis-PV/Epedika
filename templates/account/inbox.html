@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Inbox</title>
-</head>
-<body>
+{% extends "account/base.html" %}
+{% load bootstrap5 %}
+{% block head_title %}Inbox{% endblock %}
+{% block content %}
     <h1>Inbox</h1>
     <ul>
         {% for message in object_list %}
@@ -16,5 +14,4 @@
             <li>No messages in your inbox.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}

@@ -1,5 +1,9 @@
+{% extends "account/base.html" %}
 
+{% load bootstrap5 %}
+{% load i18n %}
 
+{% block title %}Create a New Transaction{% endblock %}
 {% block content %}
   <h2>Create a New Transaction</h2>
   <form method="post" action="{% url 'account:transaction_create' %}">
