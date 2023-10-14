@@ -37,6 +37,12 @@ class Slides(models.Model):
     image = models.URLField()
 
 
+# class Investment(models.Model):
+#     user = models.ForeignKey(CustomeUser, on_delete=models.CASCADE)
+#     amount = models.IntegerField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
+
 class Transaction(models.Model):
     PENDING = 'pending'
     ORDERED = 'ordered'
