@@ -223,9 +223,12 @@ class MessageSendingView(generics.CreateAPIView):
     serializer_class = MessageSerializer
     permission_class = [IsAuthenticated]
 
-    def perform_create(self,request, serializer):
+    def perform_create(self,serializer):
+        if serializer.is_valid():
+            
+            sender = serializer.validated_data['sender']
         try:
-            serializer.save(sender=request.user.id)
+            serializer.save(sender=sender)
         except Exception as e:
             return Response({'error': 'Message sending failed'}, status=status.HTTP_400_BAD_REQUEST)
 

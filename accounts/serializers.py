@@ -59,7 +59,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
     def validate_recipient(self, value):
         try:
-            User.objects.get(pk=value)
+            User.objects.get(pk=value.id)
         except User.DoesNotExist:
             raise serializers.ValidationError("Recipient does not exist")
         return value
