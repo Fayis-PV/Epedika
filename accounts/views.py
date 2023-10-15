@@ -98,15 +98,15 @@ class CustomSignupView(SignupView):
     def get(self,request):
         return render(request,'account/signup.html')
     
-    @csrf_exempt
-    @csrf_protect
+    # @csrf_exempt
+    # @csrf_protect
     def form_valid(self, form):
         # Create the user but don't log them in
         self.user = form.save(self.request)
         return redirect("account_login")  # Redirect to the login page
 
     # Optional: Override the success url to redirect after email confirmation
-    @csrf_exempt
+    # @csrf_exempt
     def get_success_url(self):
         return reverse("account_login")  # Redirect to the login page
 
